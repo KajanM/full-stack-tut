@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Panda Todo</title>
+
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <!--input element to enter todo item-->
+    <input type="text" id="todo-input">
+    <!--button to add todo-item to the list--->
+    <button type="submit" id="add-button" disabled>Add</button>
+</form>
+<h2>Todo List</h2>
+<div id="no-todo-item-alert">Please add new todo item</div>
+<ul id="todo-list-container">
+
+</ul>
+<!-- todo list-->
+<div></div>
+<script>
+    // const todoItems = []
+    let todoCount = 0
+    const button = document.querySelector('#add-button')
+    const input = document.querySelector('#todo-input')
+    input.addEventListener('input', function onTodoNameChange() {
+        button.disabled = !isValidTodoName(input.value)
+    })
+
+    const todoList = document.querySelector('#todo-list-container')
+
+    button.addEventListener('click', (event) => {
+        addTodo(event, input)
+    })
+
+    function addTodo(event, inputEle) {
+        event.preventDefault()
+        const alertBanner = document.querySelector('#no-todo-item-alert');
+        const todoItem = document.createElement('li')
+        todoItem.style = 'border: 2px solid black;'
+        todoItem.textContent = inputEle.value
+
+        const deleteButton = document.createElement('button')
+        deleteButton.textContent = 'delete'
+        deleteButton.style = 'margin-left: 6px;'
+
+        deleteButton.addEventListener('click', function onTodoItemDelete() {
+            todoList.removeChild(todoItem)
+            todoCount -= 1
+
+            if(todoCount <= 0) {
+               alertBanner.classList.remove('hide')
+            }
+        })
+
+        todoItem.appendChild(deleteButton)
+        todoList.appendChild(todoItem)
+        todoCount += 1
+
+        alertBanner.classList.add('hide')
+
+        inputEle.value = ''
+    }
+
+    function isValidTodoName(name) {
+        if (!name) return false
+        if (!name.trim()) return false
+
+        return true
+    }
+
+    function sayHello() {
+        console.log('haiiii panda')
+    }
+</script>
+</body>
+</html>
