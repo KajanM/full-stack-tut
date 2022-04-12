@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todo vue</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+<div id="app">adfasdfasdfasf</div>
+<div>haaai</div>
+</body>
+<script>
+    Vue.createApp({
+        template: `
+          <input v-model="newTodo"/>
+          <button @click="addTodo" :disabled="isDisabledComputed">Add</button>
+          <div v-if="!todoList.length && !newTodo.length">Please add a todo</div>
+          <ul>
+          <div>{{new Date()}}</div>
+          <div>{{newDate}}</div>
+         <li v-for="(todo, index) in todoList" :key="index">{{todo}}</li>
+          </ul>
+        `,
+        computed: {
+            newDate() {
+                return new Date()
+            },
+            isDisabledComputed() {
+                console.log('')
+                return !this.validateTodo(this.newTodo)
+            }
+        },
+        data() {
+            return {
+                newTodo: '',
+                todoList: [],
+                isDisabled: true
+            }
+        },
+        methods: {
+            addTodo() {
+                if(!this.validateTodo(this.newTodo)) return
+
+                this.todoList.push(this.newTodo)
+                this.newTodo = ''
+            },
+            validateTodo(todo) {
+                if (!todo) return false
+                if (!todo.trim()) return false
+
+                return true
+            },
+            isDisabledMethod() {
+                return !this.validateTodo(this.newTodo)
+            }
+        }
+    }).mount('#app')
+</script>
+</html>
