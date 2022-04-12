@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+<div>hai panda</div>
+<div id="app"></div>
+<script src="second.js" type="module"></script>
+<script>
+   function Todo() {
+
+       // return <div id='panda-div'>hello from react</div>
+       return React.createElement('div', {id: 'panda-div'}, 'hello from react')
+   }
+   // <div> children </div>
+   // <Todo>..</Todo>
+
+   ReactDOM.render(React.createElement(Todo), document.querySelector('#app'))
+</script>
+</body>
+</html>
