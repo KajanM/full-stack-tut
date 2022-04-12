@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+    <title>Todo App</title>
+    <style>
+        .hide {
+            display: none;
+        }
+
+        .doneTodo {
+            text-decoration: line-through;
+            color: darkgrey;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <input type="text" name="todoName" id="todoName">
+        <button id="addTodo" disabled>Add</button>
+    </form>
+
+    <div id="alert-banner">Please add todo</div>
+    <div id="todo-list-container" class="hide">
+        <h2>Todo List</h2>
+        <ul id="todoList">
+        </ul>
+    </div>
+
+
+    <script>
+        let todosCount = 0;
+        const todoName = document.querySelector('#todoName');
+        const addTodoBtn = document.querySelector('#addTodo');
+        const todoList = document.querySelector('#todoList');
+        const alertBanner = document.querySelector('#alert-banner');
+        const todolistContainer = document.querySelector('#todo-list-container');
+
+        todoList.style = 'list-style-type: none;';
+
+        todoName.addEventListener('input', () => onTodoNameChange(todoName.value));
+
+        addTodoBtn.addEventListener('click', (e) => addTodoName(e));
+
+        function addTodoName(event) {
+            event.preventDefault();
+            const todoItem = document.createElement('li');
+
+            const isDoneCheck = document.createElement('input');
+            isDoneCheck.type = 'checkbox';
+            todoItem.appendChild(isDoneCheck);
+            
+            const todoLabel = document.createElement('span');
+            todoLabel.textContent = todoName.value;
+            todoItem.appendChild(todoLabel);
+
+            isDoneCheck.addEventListener('change', function doneTodo() {
+                if(isDoneCheck.checked) {
+                    todoLabel.classList.add('doneTodo');
+                } else {
+                    todoLabel.classList.remove('doneTodo');
+                }
+            })
+
+            //todoItem.textContent = todoName.value;
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerText = 'Delete';
+            deleteBtn.style = 'margin-left: 6px';
+
+            deleteBtn.addEventListener('click', function deleteTodo() {
+                todoList.removeChild(todoItem);
+                todosCount -= 1;
+                if (todosCount <= 0) {
+                    alertBanner.classList.remove('hide');
+                    todolistContainer.classList.add('hide');
+                }
+            })
+            todoItem.appendChild(deleteBtn);
+            todoItem.style = 'margin: 15px';
+
+            todoList.appendChild(todoItem);
+            todosCount += 1;
+            alertBanner.classList.add('hide');
+            todolistContainer.classList.remove('hide');
+            todoName.value = '';
+            addTodoBtn.disabled = true;
+        }
+
+        function onTodoNameChange(todo) {
+            addTodoBtn.disabled = !isValidTodoName(todo);
+        }
+
+        function isValidTodoName(todo) {
+            if (!todo.trim()) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
